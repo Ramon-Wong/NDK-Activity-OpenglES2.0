@@ -52,6 +52,9 @@ int32_t 					handle_Input(struct android_app *, AInputEvent *);
 void						Render(struct engine* ); 
 void						checkGlError(const char* );
 
+void						gluLookAt(	GLfloat,	GLfloat,	GLfloat,
+										GLfloat,	GLfloat,	GLfloat,
+										GLfloat,	GLfloat,	GLfloat);
 
 
 

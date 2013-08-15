@@ -18,6 +18,12 @@ void Render(struct engine* engine) {
 	// Clear the color buffer
 	glClear( GL_COLOR_BUFFER_BIT );										checkGlError(" glClear");
 
+	//glLoadIdentity();
+	
+	// Cam Position
+	gluLookAt( 0.0f, 0.5f, 6.0f,   0.0f, 0.5f, 0.0f,   0.0f, 1.0f, 0.0);
+
+
 	// Use the program object
 	glUseProgram ( engine->programObject );								checkGlError(" glUseProgram");
 
