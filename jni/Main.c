@@ -6,26 +6,6 @@
 
 
 
-GLbyte vShaderStr[] =  
-	"attribute vec4 vPosition;						\n"
-	"void main() {									\n"
-	"   gl_Position = vPosition;					\n"
-	"}                            					\n";
-   
-   
-GLbyte fShaderStr[] =  
-	"precision mediump float;\n"\
-	"void main() {                                	\n"
-	"  gl_FragColor = vec4 ( 1.0, 0.0, 0.0, 1.0 );	\n"
-	"}  										  	\n";	
-
-
-GLuint		vertexShader;
-GLuint		fragmentShader;
-GLuint		programObject;
-GLuint		linked;
-
-
 
 void handle_Cmd(struct android_app* app, int32_t cmd) {
 	struct engine* engine = (struct engine*)app->userData;
@@ -41,26 +21,8 @@ void handle_Cmd(struct android_app* app, int32_t cmd) {
 		
 		displayInit(engine);
 		LOGI(" Loading Shaders");
-		vertexShader		= LoadShader(GL_VERTEX_SHADER,   vShaderStr );
-		fragmentShader		= LoadShader(GL_FRAGMENT_SHADER, fShaderStr );
-		
-		programObject = glCreateProgram();						checkGlError(" glCreateProgram");
-   
-		if(!programObject) LOGI(" Problems with ProgramObject");
-
-		glAttachShader(programObject, vertexShader );			checkGlError(" glAttachShader: VertexShader");
-		glAttachShader(programObject, fragmentShader );			checkGlError(" glAttachShader: FragmentShader");
-		
-		// Link the program
-		glLinkProgram( programObject );							checkGlError(" glLinkProgram");
-
-		// Check the link status
-		glGetProgramiv( programObject, GL_LINK_STATUS, &linked );		
+		SetupGraphics(engine);
 				
-		// Store the program object
-		engine->programObject = programObject;				
-		glClearColor ( 0.0f, 0.0f, 0.0f, 0.0f );				checkGlError(" glClearColor");
-		
 		LOGI(" Finished with EGL/OGL es 2.0 setup :D");
 		
 		// Init Camera
