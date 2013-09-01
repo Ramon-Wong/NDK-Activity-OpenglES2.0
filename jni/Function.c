@@ -13,12 +13,12 @@ void Render(struct engine * engine) {
 							 0.5f, -0.5f,  0.0f};	
 
 	glViewport( 0, 0, engine->width, engine->height);
-	glClearColor( 1.0f, 1.0f, 1.0f, 1.0f);									checkGlError("glClearColor");
-	glClear( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);					checkGlError("glClear");
-	glUseProgram(engine->pObject);											checkGlError("glUseProgram");
+	glClearColor( 1.0f, 1.0f, 1.0f, 1.0f);													checkGlError("glClearColor");
+	glClear( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);									checkGlError("glClear");
+	glUseProgram(engine->pObject);															checkGlError("glUseProgram");
 	    
-	glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 0, Vertices);			checkGlError("glVertexAttribPointer");
-	glEnableVertexAttribArray(0);											checkGlError("glEnableVertexAttribArray");
+	glVertexAttribPointer( engine->gvPositionHandle, 3, GL_FLOAT, GL_FALSE, 0, Vertices);	checkGlError("glVertexAttribPointer");
+	glEnableVertexAttribArray( engine->gvPositionHandle);									checkGlError("glEnableVertexAttribArray");
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 	    
 	eglSwapBuffers(engine->display, engine->surface);

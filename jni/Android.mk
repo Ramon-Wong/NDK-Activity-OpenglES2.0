@@ -5,7 +5,8 @@ include $(CLEAR_VARS)
 LOCAL_MODULE    := 	native-activity
 LOCAL_SRC_FILES := 	Main.c \
 					Function.c \
-					Utils.c
+					Utils.c \
+					Matrix.c
                     
 LOCAL_LDLIBS    := -lEGL -lGLESv2 -llog -landroid -ldl  
 					
