@@ -4,7 +4,7 @@
 	
 void Render(struct engine * engine) {
 
-	if (engine->display == NULL) {	
+	if (engine->EGL.display == NULL) {	
 		return;						// No display.
 	}
 	
@@ -12,16 +12,16 @@ void Render(struct engine * engine) {
 							-0.5f, -0.5f,  0.0f,
 							 0.5f, -0.5f,  0.0f};	
 
-	glViewport( 0, 0, engine->width, engine->height);
-	glClearColor( 1.0f, 1.0f, 1.0f, 1.0f);													checkGlError("glClearColor");
-	glClear( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);									checkGlError("glClear");
-	glUseProgram(engine->pObject);															checkGlError("glUseProgram");
+	glViewport( 0, 0, engine->Scr.width, engine->Scr.height);
+	glClearColor( 1.0f, 1.0f, 1.0f, 1.0f);																//checkGlError("glClearColor");
+	glClear( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);												//checkGlError("glClear");
+	glUseProgram(engine->GLData.pObject);																//checkGlError("glUseProgram");
 	    
-	glVertexAttribPointer( engine->gvPositionHandle, 3, GL_FLOAT, GL_FALSE, 0, Vertices);	checkGlError("glVertexAttribPointer");
-	glEnableVertexAttribArray( engine->gvPositionHandle);									checkGlError("glEnableVertexAttribArray");
+	glVertexAttribPointer( engine->GLData.gPositionAttribute, 3, GL_FLOAT, GL_FALSE, 0, Vertices);		//checkGlError("glVertexAttribPointer");
+	glEnableVertexAttribArray( engine->GLData.gPositionAttribute);										//checkGlError("glEnableVertexAttribArray");
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 	    
-	eglSwapBuffers(engine->display, engine->surface);
+	eglSwapBuffers(engine->EGL.display, engine->EGL.surface);
 }	
 	
 
@@ -66,11 +66,11 @@ GLuint displayInit(struct engine* engine){
 	eglQuerySurface(display, surface, EGL_WIDTH, &w);
 	eglQuerySurface(display, surface, EGL_HEIGHT, &h);
 
-	engine->display		= display;
-	engine->context		= context;
-	engine->surface		= surface;
-	engine->width		= w;
-	engine->height		= h;
+	engine->EGL.display		= display;
+	engine->EGL.context		= context;
+	engine->EGL.surface		= surface;
+	engine->Scr.width		= w;
+	engine->Scr.height		= h;
 	
 	// Initialize GL state.
 	return 1;
@@ -119,9 +119,10 @@ GLuint	CreateGLProgram(const char * vShader, const char * fShader){
 GLuint SetupGraphics(struct engine * engine){
 	
 	const char vShader[] = 
-	"attribute vec4 vPosition;\n"
+	"attribute vec4 vPosition;			\n"
+	"									\n"
 	"void main() {\n"
-	"  gl_Position = vPosition;\n"
+	"  gl_Position = vPosition;	\n"
 	"}\n";
 
 	const char fShader[] = 
@@ -137,19 +138,25 @@ GLuint SetupGraphics(struct engine * engine){
 	printGLString("Renderer",	GL_RENDERER);
 	printGLString("Extensions", GL_EXTENSIONS);
 	
-	LOGI("setupGraphics(%d, %d)", engine->width, engine->height);
+	LOGI("setupGraphics(%d, %d)", engine->Scr.width, engine->Scr.height);
 
-	engine->pObject = CreateGLProgram(vShader, fShader);
+	engine->GLData.pObject = CreateGLProgram(vShader, fShader);
 	
-	if(!engine->pObject) {
+	if(!engine->GLData.pObject) {
 		LOGE("Could not create program.");
 		return 0;
 	}
 		
-	engine->gvPositionHandle = glGetAttribLocation( engine->pObject, "vPosition");			checkGlError("glGetAttribLocation");
-	LOGI("glGetAttribLocation(\"vPosition\") = %d\n", engine->gvPositionHandle);
+	engine->GLData.gPositionAttribute	= glGetAttribLocation( engine->GLData.pObject, "vPosition");	checkGlError("glGetAttribLocation");
+	LOGI("glGetAttribLocation(\"vPosition\") = %d\n", engine->GLData.gPositionAttribute);
+	glEnableVertexAttribArray(engine->GLData.gPositionAttribute);										checkGlError("glenableVertexAttribArray");
 
-	glViewport(0, 0, engine->width, engine->height);										checkGlError("glViewport");		
+	LOGI("Get Uniform Locations");
+    engine->GLData.pMatrixUniform	= glGetUniformLocation(engine->GLData.pObject, "uPMatrix");			checkGlError("glgetUniformLocation uPMatrix");
+    engine->GLData.mvMatrixUniform	= glGetUniformLocation(engine->GLData.pObject, "uMVMatrix");		checkGlError("glgetUniformLocation uMVMatrix");
+
+
+	glViewport(0, 0, engine->Scr.width, engine->Scr.height);											checkGlError("glViewport");		
 		
 	return 1;
 }

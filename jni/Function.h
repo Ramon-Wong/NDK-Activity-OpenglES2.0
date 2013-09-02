@@ -27,16 +27,25 @@
 
 struct engine {
 	struct android_app* 	app;
-
-	EGLDisplay 				display;
-	EGLSurface 				surface;
-	EGLContext 				context;
 	
-	GLuint					pObject;
-	GLuint					gvPositionHandle;
+	struct{
+		EGLDisplay 			display;
+		EGLSurface 			surface;
+		EGLContext 			context;
+	}EGL;
 	
-	int32_t 				width;
-	int32_t 				height;
+	
+	struct{
+		GLuint				pObject;
+		GLint				gPositionAttribute;
+		GLint				pMatrixUniform;
+		GLint				mvMatrixUniform;
+	}GLData;
+	
+	struct{
+		int32_t 			width;
+		int32_t 			height;
+	}Scr;
 
 	int32_t 				touchX;				// there are going to be an array of this	
 	int32_t 				touchY;

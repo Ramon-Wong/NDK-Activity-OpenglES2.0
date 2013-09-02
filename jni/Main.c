@@ -46,19 +46,19 @@ void handle_Cmd(struct android_app* app, int32_t cmd) {
 
 
 void displayEnd(struct engine* engine) {
-	if (engine->display != EGL_NO_DISPLAY) {
-		eglMakeCurrent(engine->display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
-		if (engine->context != EGL_NO_CONTEXT) {
-			eglDestroyContext(engine->display, engine->context);
+	if (engine->EGL.display != EGL_NO_DISPLAY) {
+		eglMakeCurrent(engine->EGL.display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
+		if (engine->EGL.context != EGL_NO_CONTEXT) {
+			eglDestroyContext(engine->EGL.display, engine->EGL.context);
 		}
-		if (engine->surface != EGL_NO_SURFACE) {
-			eglDestroySurface(engine->display, engine->surface);
+		if (engine->EGL.surface != EGL_NO_SURFACE) {
+			eglDestroySurface(engine->EGL.display, engine->EGL.surface);
 		}
-		eglTerminate(engine->display);
+		eglTerminate(engine->EGL.display);
 	}
-	engine->display = EGL_NO_DISPLAY;
-	engine->context = EGL_NO_CONTEXT;
-	engine->surface = EGL_NO_SURFACE;
+	engine->EGL.display = EGL_NO_DISPLAY;
+	engine->EGL.context = EGL_NO_CONTEXT;
+	engine->EGL.surface = EGL_NO_SURFACE;
 }
 
 
