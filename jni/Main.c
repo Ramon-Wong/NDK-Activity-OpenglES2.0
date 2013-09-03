@@ -68,9 +68,10 @@ int32_t handle_Input(struct android_app* app, AInputEvent* event) {
 	struct engine* engine = (struct engine*)app->userData;
 	
 	if (AInputEvent_getType(event) == AINPUT_EVENT_TYPE_MOTION) {
-		engine->touchX = AMotionEvent_getX(event, 0);
-		engine->touchY = AMotionEvent_getY(event, 0);
-		LOGI("x %d\ty %d\n",engine->touchX,engine->touchY);
+		engine->Input.touchX = AMotionEvent_getX(event, 0);
+		engine->Input.touchY = AMotionEvent_getY(event, 0);
+		
+		LOGI("x %d\ty %d\n",engine->Input.touchX,engine->Input.touchY);
 		return 1;
 	}
 	return 0;

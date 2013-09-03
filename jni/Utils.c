@@ -25,6 +25,7 @@ void printGLString(const char *name, GLenum s) {
 }
 
 
+
 GLuint LoadShader ( GLenum type, const char *shaderSrc ){
 	GLuint shader;
 	GLint compiled;

@@ -35,6 +35,8 @@ void Perspective(GLfloat * Mat, GLfloat fov, GLfloat aspect, GLfloat znear, GLfl
 
 
 void Translate( GLfloat X, GLfloat Y, GLfloat Z, GLfloat * Mat){
-	
+	Mat[12] = X;
+	Mat[13] = Y; 
+	Mat[14] = Z;
 }
 

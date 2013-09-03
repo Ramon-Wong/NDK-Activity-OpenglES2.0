@@ -47,8 +47,10 @@ struct engine {
 		int32_t 			height;
 	}Scr;
 
-	int32_t 				touchX;				// there are going to be an array of this	
-	int32_t 				touchY;
+	struct{
+		int32_t 			touchX;				// there are going to be an array of this	
+		int32_t 			touchY;
+	}Input;
 };
 
 
