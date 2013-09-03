@@ -16,13 +16,15 @@
 #include <android/log.h>
 #include <android_native_app_glue.h>
 
+#include "Matrix.h"
+
 
 #define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO,  "native-activity", __VA_ARGS__))
 #define LOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN,  "native-activity", __VA_ARGS__))
 #define LOGE(...) ((void)__android_log_print(ANDROID_LOG_ERROR, "native-activity", __VA_ARGS__))
 
-
-
+#define false 0
+#define FALSE 0
 
 
 struct engine {
@@ -51,6 +53,12 @@ struct engine {
 		int32_t 			touchX;				// there are going to be an array of this	
 		int32_t 			touchY;
 	}Input;
+	
+	struct{
+		GLfloat				Perspective[16];
+		GLfloat				Stacks[8][16];
+	}Matrices;
+	
 };
 
 
