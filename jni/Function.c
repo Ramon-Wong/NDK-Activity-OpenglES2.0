@@ -14,7 +14,7 @@ void Render(struct engine * engine) {
 		return;						// No display.
 	}
 	
-	Perspective( engine->Matrices.Perspective, 45.0, engine->Scr.width / engine->Scr.height, 0.1, 1000.0);
+//	Perspective( engine->Matrices.Perspective, 45.0, engine->Scr.width / engine->Scr.height, 0.1, 1000.0);
 	
 	GLfloat	Vertices[] = {   0.0f,  0.5f,  0.0f,
 							-0.5f, -0.5f,  0.0f,
