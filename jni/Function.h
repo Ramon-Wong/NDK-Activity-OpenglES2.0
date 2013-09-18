@@ -40,8 +40,9 @@ struct engine {
 	struct{
 		GLuint				pObject;
 		GLint				gPositionAttribute;
-		GLint				pMatrixUniform;
-		GLint				mvMatrixUniform;
+		
+		GLint				p_Matrix;
+		GLint				u_Matrix;
 	}GLData;
 	
 	struct{
@@ -55,12 +56,13 @@ struct engine {
 	}Input;
 	
 	struct{
-		GLfloat				Perspective[16];
-		GLfloat				Stacks[8][16];
+		GLfloat				pMatrix[16];		// Projection
+		GLfloat 			cMatrix[16];		// Camera
+		GLfloat				mMatrix[16];		// Model view	
+		GLfloat				mvpMat[16];
 	}Matrices;
 	
 };
-
 
 
 GLuint						displayInit(struct engine *);
@@ -75,8 +77,6 @@ void						handle_Cmd(struct android_app *, int32_t);
 int32_t 					handle_Input(struct android_app *, AInputEvent *);
 void						Render(struct engine* ); 
 void						checkGlError(const char* );
-
-
 
 
 #endif

@@ -154,21 +154,14 @@ GLuint	CreateGLProgram(const char * vShader, const char * fShader){
 
 GLuint SetupGraphics(struct engine * engine){
 	
-	const char vShader[] = 
-	"attribute vec4 vPosition;			\n"
-	"									\n"
-	"void main() {\n"
-	"  gl_Position = vPosition;	\n"
-	"}\n";
-
-	const char vShader2[] =
+	const char vShader[] =
 	"attribute vec3 vPosition;												\n"
 
     "uniform mat4 uMVMatrix;												\n"
     "uniform mat4 uPMatrix;													\n"
 
     "void main(void) {														\n"
-    "    gl_Position = uPMatrix * uMVMatrix * vec4(vPosition, 1.0);			\n"
+    "    gl_Position = uMVMatrix * uPMatrix * vec4(vPosition, 1.0);			\n"
     "} 																		\n";
 
 
@@ -187,7 +180,7 @@ GLuint SetupGraphics(struct engine * engine){
 	
 	LOGI("setupGraphics(%d, %d)", engine->Scr.width, engine->Scr.height);
 
-	engine->GLData.pObject = CreateGLProgram(vShader2, fShader);
+	engine->GLData.pObject = CreateGLProgram(vShader, fShader);
 	
 	if(!engine->GLData.pObject) {
 		LOGE("Could not create program.");
@@ -199,11 +192,26 @@ GLuint SetupGraphics(struct engine * engine){
 	glEnableVertexAttribArray(engine->GLData.gPositionAttribute);										checkGlError("glenableVertexAttribArray");
 
 	LOGI("Get Uniform Locations");
-    engine->GLData.pMatrixUniform	= glGetUniformLocation(engine->GLData.pObject, "uPMatrix");			checkGlError("glgetUniformLocation uPMatrix");
-    engine->GLData.mvMatrixUniform	= glGetUniformLocation(engine->GLData.pObject, "uMVMatrix");		checkGlError("glgetUniformLocation uMVMatrix");
+    engine->GLData.p_Matrix	= glGetUniformLocation(engine->GLData.pObject, "uPMatrix");					checkGlError("glgetUniformLocation uPMatrix");
+    engine->GLData.u_Matrix	= glGetUniformLocation(engine->GLData.pObject, "uMVMatrix");				checkGlError("glgetUniformLocation uMVMatrix");
 
+	LOGI("Uniform modelview at %d\n",  engine->GLData.u_Matrix);
+	LOGI("Uniform Projection at %d\n", engine->GLData.p_Matrix);
 
+	// Load identities 
+	LoadIdentity( engine->Matrices.cMatrix); 
+	LoadIdentity( engine->Matrices.mMatrix);
+	LoadIdentity( engine->Matrices.pMatrix);
+	
+	MPerspective( engine->Matrices.pMatrix, 45.0, (engine->Scr.width / engine->Scr.height), 1.0f, 100.0f);
 	glViewport(0, 0, engine->Scr.width, engine->Scr.height);											checkGlError("glViewport");		
+	
+	GLfloat _Pose[] = { 0.0, 0.0, 5.0};		
+	GLfloat _View[] = { 0.0, 0.1, 0.0};
+	GLfloat _UpVx[] = { 0.0, 1.0, 0.0};
+	
+	glViewport(0, 0, engine->Scr.width, engine->Scr.height);
+	LookAtM( engine->Matrices.cMatrix, _Pose, _View, _UpVx);
 		
 	return 1;
 }
