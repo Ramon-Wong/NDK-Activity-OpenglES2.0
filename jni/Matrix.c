@@ -158,18 +158,22 @@ void LookAtM( GLfloat * Mat, GLfloat * Pose, GLfloat * View, GLfloat * UpVx){
 	Mat[0]  = X[0];
 	Mat[4]  = X[1];
 	Mat[8]  = X[2];
+	Mat[12] = 0.0;
 	
 	Mat[1]  = Y[0];
 	Mat[5]  = Y[1];
 	Mat[9]  = Y[2];
+	Mat[13] = 0.0;
 	
 	Mat[2]  = Z[0];
 	Mat[6]  = Z[1];				
 	Mat[10] = Z[2];
+	Mat[14] = 0.0;
 	
 	Mat[3]  = 0.0;
 	Mat[7]  = 0.0;
 	Mat[11] = 0.0;
+	Mat[15] = 1.0;
 	
 	MTranslate( Mat, -View[0], -View[1], -View[2]);
 }
