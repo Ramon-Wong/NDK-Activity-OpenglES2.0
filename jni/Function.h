@@ -40,6 +40,7 @@ struct engine {
 	struct{
 		GLuint				pObject;
 		GLint				gPositionAttribute;
+		GLint				gColorsAttribute;		
 		
 		GLint				p_Matrix;
 		GLint				u_Matrix;
@@ -63,6 +64,8 @@ struct engine {
 	}Matrices;
 	
 };
+
+
 
 
 GLuint						displayInit(struct engine *);

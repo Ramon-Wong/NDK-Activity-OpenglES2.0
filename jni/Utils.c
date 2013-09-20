@@ -161,7 +161,7 @@ GLuint SetupGraphics(struct engine * engine){
     "uniform mat4 uPMatrix;													\n"
 
     "void main(void) {														\n"
-    "    gl_Position = uMVMatrix * uPMatrix * vec4(vPosition, 1.0);			\n"
+    "    gl_Position = uPMatrix * uMVMatrix * vec4(vPosition, 1.0);			\n"
     "} 																		\n";
 
 
@@ -206,11 +206,10 @@ GLuint SetupGraphics(struct engine * engine){
 	MPerspective( engine->Matrices.pMatrix, 45.0, (engine->Scr.width / engine->Scr.height), 1.0f, 100.0f);
 	glViewport(0, 0, engine->Scr.width, engine->Scr.height);											checkGlError("glViewport");		
 	
-	GLfloat _Pose[] = { 0.0, 0.0, 5.0};		
-	GLfloat _View[] = { 0.0, 0.1, 0.0};
+	GLfloat _Pose[] = { 0.0, 0.1, 0.0};		
+	GLfloat _View[] = { 0.0, 0.0, 5.0};
 	GLfloat _UpVx[] = { 0.0, 1.0, 0.0};
 	
-	glViewport(0, 0, engine->Scr.width, engine->Scr.height);
 	LookAtM( engine->Matrices.cMatrix, _Pose, _View, _UpVx);
 		
 	return 1;

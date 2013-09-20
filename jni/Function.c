@@ -3,7 +3,7 @@
 
 
 void setMatrixUniforms(struct engine * engine) {
-	glUniformMatrix4fv(engine->GLData.u_Matrix, 1, false, engine->Matrices.mvpMat);			checkGlError("glUniformMatrix4fv Stacks");	
+	glUniformMatrix4fv(engine->GLData.u_Matrix, 1, false, engine->Matrices.mvpMat);			checkGlError("glUniformMatrix4fv Model Stacks");	
 	glUniformMatrix4fv(engine->GLData.p_Matrix,  1, false, engine->Matrices.pMatrix);		checkGlError("glUniformMatrix4fv Perspective");
 }
 
@@ -18,7 +18,6 @@ void Render(struct engine * engine) {
 							-0.5f, -0.5f,  0.0f,
 							 0.5f, -0.5f,  0.0f};	
 							 
-	glViewport( 0, 0, engine->Scr.width, engine->Scr.height);
 	glClearColor( 1.0f, 1.0f, 1.0f, 1.0f);																//checkGlError("glClearColor");
 	glClear( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);												//checkGlError("glClear");
 	glUseProgram(engine->GLData.pObject);																//checkGlError("glUseProgram");
