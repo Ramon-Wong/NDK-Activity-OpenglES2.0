@@ -43,6 +43,7 @@ void MTranslate(GLfloat * Result, GLfloat x, GLfloat y, GLfloat z){
 }
 
 
+
 void MRotate(GLfloat * Mat, GLfloat angle, GLfloat x, GLfloat y, GLfloat z){
 	GLfloat sin_angle, cos_angle;
     GLfloat mag = sqrtf(x * x + y * y + z * z);
@@ -92,54 +93,40 @@ void MRotate(GLfloat * Mat, GLfloat angle, GLfloat x, GLfloat y, GLfloat z){
 }
 
 
-void MFrustum(GLfloat * result, GLfloat Left, GLfloat Right, 
+
+void MFrustum(GLfloat * mat, GLfloat Left, GLfloat Right, 
 			  GLfloat Bottom, GLfloat Top, GLfloat zNear, GLfloat zFar){
 
 	GLfloat rWidth	= Right - Left;
 	GLfloat rHeight = Top - Bottom;
 	GLfloat rDepth	= zFar - zNear;
-	GLfloat tMat[16];
-
+	
 	GLfloat temp	= 2.0 * zNear;
-	memset((void*)tMat, 0, 16*sizeof(GLfloat));
+	GLfloat result[16];
 	
-	tMat[ 0] = temp / rWidth;
-	tMat[ 5] = temp / rHeight;
-	tMat[ 8] = (Right + Left) / rWidth;
-	tMat[ 9] = (Top + Bottom) / rHeight;
-	tMat[10] =-(zFar + zNear) / rDepth;
-	tMat[11] = -1.0f;	
-	tMat[14] = -(zFar * zNear * 2) / rDepth;
-	tMat[15] = 0.0f;
 	
-	MMultiply( result, tMat, result);
+	memset((void*)result, 0.0, 16*sizeof(float));
+	
+	result[ 0] = temp / rWidth;   
+	result[ 5] = temp / rHeight;
+	result[ 8] = (Right + Left) / rWidth;
+	result[ 9] = (Top + Bottom) / rHeight;
+	result[10] =-(zFar + zNear) / rDepth;
+	result[11] = -1.0f;	
+	result[14] = -(zFar * zNear * 2) / rDepth;
+	result[15] = 0.0f;
+	
+	MMultiply( mat, result, mat);
 }
 
 
-void MPerspective(GLfloat * Mat, GLfloat FOVY, GLfloat Aspect, GLfloat zNear, GLfloat zFar){
+void MPerspective(GLfloat * Mat, GLfloat Aspect, GLfloat zNear, GLfloat zFar){
 	
-	GLfloat fHeight = tanf(FOVY / 360.0 * PI) * zNear;
+	GLfloat fHeight = tanf(45.0 / 360.0 * PI) * zNear;
 	GLfloat fWidth	= fHeight * Aspect;
-    
+
 	MFrustum( Mat, -fWidth, fWidth, -fHeight, fHeight, zNear, zFar);	
 }
-
-
-void MOrtho( GLfloat * Mat, GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far){
-    GLfloat LR = 1 / (left - right);
-    GLfloat BT = 1 / (bottom - top);
-    GLfloat NF = 1 / (near - far);
-
-    memset((void*)Mat, 0.0, 16*sizeof(GLfloat));
-
-    Mat[0]  = -2 * LR;
-    Mat[5]  = -2 * BT;
-    Mat[10] =  2 * NF;
-    Mat[12] = (left + right) * LR;
-    Mat[13] = (top + bottom) * BT;
-    Mat[14] = (far + near) * NF;
-    Mat[15] = 1.0f;
-};
 
 
 void LookAtM( GLfloat * Mat, GLfloat * Pose, GLfloat * View, GLfloat * UpVx){
@@ -158,14 +145,14 @@ void LookAtM( GLfloat * Mat, GLfloat * Pose, GLfloat * View, GLfloat * UpVx){
 	CrossProduct( Y, Z, X);		// reCompute vector Y
 	Normalize(Y);
 
-	Mat[0]  = X[0]; Mat[1]  = Y[0]; Mat[2]  = Z[0]; Mat[3]  = 0.0;
-	Mat[4]  = X[1]; Mat[5]  = Y[1]; Mat[6]  = Z[1]; Mat[7]  = 0.0;
-	Mat[8]  = X[2]; Mat[9]  = Y[2]; Mat[10] = Z[2]; Mat[11] = 0.0;
-	Mat[12] =  0.0; Mat[13] =  0.0; Mat[14] =  0.0;
+	Mat[0]	= X[0];	Mat[1]	= Y[0];	Mat[2]	= Z[0];	Mat[3]  = 0.0;
+	Mat[4]	= X[1];	Mat[5]	= Y[1];	Mat[6]	= Z[1];	Mat[7]  = 0.0;
+	Mat[8]	= X[2];	Mat[9]	= Y[2];	Mat[10]	= Z[2];	Mat[11]	= 0.0;
+	Mat[12]	=  0.0;	Mat[13]	=  0.0;	Mat[14]	=  0.0; Mat[15]	= 1.0;
 	
 	MTranslate( Mat, -View[0], -View[1], -View[2]);
-	Mat[15] = 1.0;
 }
+
 
 
 void CrossProduct(GLfloat * Result, GLfloat * Vec1, GLfloat * Vec2){
@@ -183,3 +170,6 @@ void Normalize(GLfloat * Vec){
 	Vec[1] /= Magnitude;
 	Vec[2] /= Magnitude;
 }
+
+
+

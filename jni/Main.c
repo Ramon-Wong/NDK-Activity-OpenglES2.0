@@ -17,7 +17,7 @@ void handle_Cmd(struct android_app* app, int32_t cmd) {
 		case APP_CMD_INIT_WINDOW:
 		// The window is being shown, get it ready.
 		LOGI(" App Status: APP_CMD_INIT_WINDOW");
-		LOGI(" Project: angry Sea Cow");
+		LOGI(" Project: Mad Mad Chicken");
 		
 		displayInit(engine);
 		LOGI(" Loading Shaders");

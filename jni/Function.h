@@ -18,7 +18,6 @@
 
 #include "Matrix.h"
 
-
 #define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO,  "native-activity", __VA_ARGS__))
 #define LOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN,  "native-activity", __VA_ARGS__))
 #define LOGE(...) ((void)__android_log_print(ANDROID_LOG_ERROR, "native-activity", __VA_ARGS__))
@@ -42,6 +41,9 @@ struct engine {
 		GLint				gPositionAttribute;
 		GLint				gColorsAttribute;		
 		
+		GLint				gpAttribute;
+		GLint				gcAttribute;		
+		
 		GLint				p_Matrix;
 		GLint				u_Matrix;
 	}GLData;
@@ -59,7 +61,6 @@ struct engine {
 	struct{
 		GLfloat				pMatrix[16];		// Projection
 		GLfloat 			cMatrix[16];		// Camera
-		GLfloat				mMatrix[16];		// Model view	
 		GLfloat				mvpMat[16];
 	}Matrices;
 	

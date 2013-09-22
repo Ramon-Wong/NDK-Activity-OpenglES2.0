@@ -156,20 +156,25 @@ GLuint SetupGraphics(struct engine * engine){
 	
 	const char vShader[] =
 	"attribute vec3 vPosition;												\n"
+	"attribute vec3 vColor;													\n"
+	"varying vec4   Color;													\n"	
 
     "uniform mat4 uMVMatrix;												\n"
     "uniform mat4 uPMatrix;													\n"
 
     "void main(void) {														\n"
-    "    gl_Position = uPMatrix * uMVMatrix * vec4(vPosition, 1.0);			\n"
+    "	gl_Position = uPMatrix * uMVMatrix * vec4(vPosition, 1.0);			\n"
+    "	Color = vec4( vColor, 1.0);											\n"
     "} 																		\n";
 
 
 	const char fShader[] = 
-	"precision mediump float;\n"
-	"void main() {\n"
-	"  gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);\n"
-	"}\n";	
+	"precision mediump float;												\n"
+	"varying vec4 Color;													\n"	
+	
+	"void main() {															\n"
+	"  gl_FragColor = Color;												\n"
+	"}																		\n";	
 		
 	LOGI("Init Graphics");
 	
@@ -191,6 +196,10 @@ GLuint SetupGraphics(struct engine * engine){
 	LOGI("glGetAttribLocation(\"vPosition\") = %d\n", engine->GLData.gPositionAttribute);
 	glEnableVertexAttribArray(engine->GLData.gPositionAttribute);										checkGlError("glenableVertexAttribArray");
 
+	engine->GLData.gColorsAttribute		= glGetAttribLocation( engine->GLData.pObject, "vColor");		checkGlError("glGetAttribLocation");
+	LOGI("glGetAttribLocation(\"vColor\") = %d\n", engine->GLData.gColorsAttribute);
+	glEnableVertexAttribArray(engine->GLData.gColorsAttribute);											checkGlError("glenableVertexAttribArray");
+
 	LOGI("Get Uniform Locations");
     engine->GLData.p_Matrix	= glGetUniformLocation(engine->GLData.pObject, "uPMatrix");					checkGlError("glgetUniformLocation uPMatrix");
     engine->GLData.u_Matrix	= glGetUniformLocation(engine->GLData.pObject, "uMVMatrix");				checkGlError("glgetUniformLocation uMVMatrix");
@@ -200,10 +209,9 @@ GLuint SetupGraphics(struct engine * engine){
 
 	// Load identities 
 	LoadIdentity( engine->Matrices.cMatrix); 
-	LoadIdentity( engine->Matrices.mMatrix);
 	LoadIdentity( engine->Matrices.pMatrix);
 	
-	MPerspective( engine->Matrices.pMatrix, 45.0, (engine->Scr.width / engine->Scr.height), 1.0f, 100.0f);
+	MPerspective( engine->Matrices.pMatrix, (engine->Scr.width / engine->Scr.height), 1.0f, 100.0f);
 	glViewport(0, 0, engine->Scr.width, engine->Scr.height);											checkGlError("glViewport");		
 	
 	GLfloat _Pose[] = { 0.0, 0.1, 0.0};		
