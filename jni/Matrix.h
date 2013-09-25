@@ -10,6 +10,7 @@ void		LoadIdentity(GLfloat * Mat);
 
 void		Normalize(GLfloat *);
 void		CrossProduct(GLfloat *, GLfloat *, GLfloat *);
+GLfloat		DegToRad(GLfloat);
 
 void		MMultiply(GLfloat *, GLfloat *, GLfloat *);
 

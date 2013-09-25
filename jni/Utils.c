@@ -69,6 +69,7 @@ GLuint displayInit(struct engine* engine){
 		EGL_BLUE_SIZE, 8,
 		EGL_GREEN_SIZE, 8,
 		EGL_RED_SIZE, 8,
+		EGL_DEPTH_SIZE, 8,
 		EGL_NONE
 	};
 
@@ -207,11 +208,17 @@ GLuint SetupGraphics(struct engine * engine){
 	LOGI("Uniform modelview at %d\n",  engine->GLData.u_Matrix);
 	LOGI("Uniform Projection at %d\n", engine->GLData.p_Matrix);
 
+
+	glEnable( GL_DEPTH_TEST );
+	glDepthFunc( GL_LEQUAL );
+	glDepthMask( GL_TRUE );	
+	glClearDepthf(1.0f);
+
 	// Load identities 
 	LoadIdentity( engine->Matrices.cMatrix); 
 	LoadIdentity( engine->Matrices.pMatrix);
 	
-	MPerspective( engine->Matrices.pMatrix, (engine->Scr.width / engine->Scr.height), 1.0f, 100.0f);
+	MPerspective( engine->Matrices.pMatrix, (engine->Scr.width / engine->Scr.height), 1.0f, 1000.0f);
 	glViewport(0, 0, engine->Scr.width, engine->Scr.height);											checkGlError("glViewport");		
 	
 	GLfloat _Pose[] = { 0.0, 0.1, 0.0};		

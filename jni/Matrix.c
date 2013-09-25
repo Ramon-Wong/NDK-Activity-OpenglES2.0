@@ -172,4 +172,6 @@ void Normalize(GLfloat * Vec){
 }
 
 
-
+GLfloat DegToRad(GLfloat degrees) {
+	return degrees * PI / 180.0;
+}
