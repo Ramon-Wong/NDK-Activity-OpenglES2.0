@@ -218,8 +218,12 @@ GLuint SetupGraphics(struct engine * engine){
 	LoadIdentity( engine->Matrices.cMatrix); 
 	LoadIdentity( engine->Matrices.pMatrix);
 	
-	MPerspective( engine->Matrices.pMatrix, (engine->Scr.width / engine->Scr.height), 1.0f, 1000.0f);
-	glViewport(0, 0, engine->Scr.width, engine->Scr.height);											checkGlError("glViewport");		
+//~ 1280×800	1.6
+//~ 1280x960	1.3333
+//~ 1280x1024	1.25
+	
+	MPerspective( engine->Matrices.pMatrix, 1.25, 1.0f, 1000.0f);	
+	glViewport(0, 0, engine->Scr.width, engine->Scr.height);																		checkGlError("glViewport");		
 	
 	GLfloat _Pose[] = { 0.0, 0.1, 0.0};		
 	GLfloat _View[] = { 0.0, 0.0, 5.0};

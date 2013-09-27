@@ -17,7 +17,7 @@ void handle_Cmd(struct android_app* app, int32_t cmd) {
 		case APP_CMD_INIT_WINDOW:
 		// The window is being shown, get it ready.
 		LOGI(" App Status: APP_CMD_INIT_WINDOW");
-		LOGI(" Project: Mad Mad Chicken");
+		LOGI(" Project: Risky Mandarin");
 		
 		displayInit(engine);
 		LOGI(" Loading Shaders");
@@ -77,7 +77,7 @@ int32_t handle_Input(struct android_app* app, AInputEvent* event) {
 	return 0;
 }
 
-
+// Main Loop
 
 void android_main(struct android_app* state) {
 	

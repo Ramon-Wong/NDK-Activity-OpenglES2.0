@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <time.h>
 
 #include <EGL/egl.h>
 #include <GLES2/gl2.h>
@@ -24,6 +25,7 @@
 
 #define false 0
 #define FALSE 0
+
 
 
 struct engine {

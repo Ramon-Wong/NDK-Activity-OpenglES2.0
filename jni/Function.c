@@ -81,6 +81,12 @@ GLubyte Cube_Indices[] = {  0, 1, 2,		0, 2, 3,		// Front
 						 
 						 
 static GLfloat	pRot_Z	= 0.0f;	
+GLfloat		FrameInterval	= 0.0f;						 
+						 
+void	CalculateFPS(){
+
+}						 
+						 
 						 
 						 
 						 
@@ -105,41 +111,20 @@ void Render(struct engine * engine) {
 									{ 0, 0, 1 }};
 											
 	GLfloat	mMatrix[16];
-	LoadIdentity( mMatrix);
 	
 	pRot_Z += 5.1;
 	
-	
+//	glViewport(0, 0, engine->Scr.width, engine->Scr.height);
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);												//checkGlError("glClear");
 	glUseProgram(engine->GLData.pObject);																//checkGlError("glUseProgram");
-	    
-	//~ LoadIdentity( mMatrix);
-	//~ LoadIdentity( engine->Matrices.mvpMat);
-	//~ 
-	//~ MTranslate( mMatrix, 0.0, 0.0, 2.0);
-	//~ // rotate, translate scale or whatever shit. everything into Model	
-	//~ 
-	//~ glVertexAttribPointer( engine->GLData.gPositionAttribute, 3, GL_FLOAT, GL_FALSE, 0, Vertices);		//checkGlError("glVertexAttribPointer Vertexs");
-	//~ glVertexAttribPointer( engine->GLData.gColorsAttribute, 3, GL_FLOAT, GL_FALSE, 0, Colors);			//checkGlError("glVertexAttribPointer Colors");
-	//~ 
-	//~ glEnableVertexAttribArray( engine->GLData.gPositionAttribute);										//checkGlError("glEnableVertexAttribArray");
-	//~ glEnableVertexAttribArray( engine->GLData.gColorsAttribute);										//checkGlError("glEnableVertexAttribArray");	
-	//~ 
-	//~ MMultiply( engine->Matrices.mvpMat, engine->Matrices.cMatrix, mMatrix);								// Camera + Model => mvpMat
-	//~ setMatrixUniforms(engine);																			// Push it!	
-	//~ 
-	//~ glDrawArrays(GL_TRIANGLES, 0, 3);
-	//~ 
-	//~ glDisableVertexAttribArray( engine->GLData.gPositionAttribute);										//checkGlError("glDisableVertexAttribArray Vertex");    
-	//~ glDisableVertexAttribArray( engine->GLData.gColorsAttribute);										//checkGlError("glDisableVertexAttribArray Colors");	
-	
+
 	
 	GLfloat rMatrix[16];
 	
 	LoadIdentity( mMatrix);
 	LoadIdentity( rMatrix);
 
-	MTranslate( mMatrix, -1.5, 0.0, -3.0);
+	MTranslate( mMatrix, -1.75, 0.0, -3.0);
 	MRotate( rMatrix, DegToRad(pRot_Z), 0, 1, 0);
 	MMultiply( mMatrix, mMatrix, rMatrix);
 
@@ -155,12 +140,11 @@ void Render(struct engine * engine) {
 
 	glDisableVertexAttribArray( engine->GLData.gPositionAttribute);										//checkGlError("glDisableVertexAttribArray Vertex");    
 	glDisableVertexAttribArray( engine->GLData.gColorsAttribute);										//checkGlError("glDisableVertexAttribArray Colors");	
-	
-	
+		
 	LoadIdentity( mMatrix);
 	LoadIdentity( rMatrix);
 
-	MTranslate( mMatrix, 1.5, 0.0, -3.0);
+	MTranslate( mMatrix, 1.75, 0.0, -3.0);
 	MRotate( rMatrix, DegToRad(pRot_Z), 1, 1, 1);
 	MMultiply( mMatrix, mMatrix, rMatrix);
 
