@@ -81,11 +81,9 @@ GLubyte Cube_Indices[] = {  0, 1, 2,		0, 2, 3,		// Front
 						 
 						 
 static GLfloat	pRot_Z	= 0.0f;	
-GLfloat		FrameInterval	= 0.0f;						 
-						 
-void	CalculateFPS(){
 
-}						 
+						 
+					 
 						 
 						 
 						 
@@ -95,13 +93,15 @@ void setMatrixUniforms(struct engine * engine) {
 	glUniformMatrix4fv(engine->GLData.p_Matrix,  1, false, engine->Matrices.pMatrix);		checkGlError("glUniformMatrix4fv Perspective");
 }
 
+
+
 	
 void Render(struct engine * engine) {
 
 	if (engine->EGL.display == NULL) {	
 		return;						// No display.
 	}
-	
+		
 	GLfloat	Vertices[] = {   0.0f,  0.5f,  0.0f,
 							-0.5f, -0.5f,  0.0f,
 							 0.5f, -0.5f,  0.0f};	
@@ -162,6 +162,19 @@ void Render(struct engine * engine) {
 	glDisableVertexAttribArray( engine->GLData.gColorsAttribute);										//checkGlError("glDisableVertexAttribArray Colors");	
 	
 	eglSwapBuffers(engine->EGL.display, engine->EGL.surface);
+	
+	
+	unsigned long			currentTime = _getTime() * 0.001;
+	static unsigned long	lastTime = 0.0;
+	static GLuint 			FPS = 0;
+	
+	FPS++;
+	
+	if( currentTime - lastTime > 1000.0){
+		LOGI(" Tick: %i", FPS);
+		lastTime = currentTime;
+		FPS = 0;
+	}
 }	
 	
 

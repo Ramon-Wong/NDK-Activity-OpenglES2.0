@@ -25,6 +25,15 @@ void printGLString(const char *name, GLenum s) {
 }
 
 
+long _getTime(void){
+    struct timespec now;
+    clock_gettime(CLOCK_MONOTONIC, &now);
+    
+    return now.tv_sec*1000000 + now.tv_nsec/1000;
+}
+
+
+
 
 GLuint LoadShader ( GLenum type, const char *shaderSrc ){
 	GLuint shader;

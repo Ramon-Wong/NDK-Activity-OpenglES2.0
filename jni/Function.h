@@ -68,7 +68,7 @@ struct engine {
 	
 };
 
-
+extern long				startTime;
 
 
 GLuint						displayInit(struct engine *);
@@ -83,6 +83,8 @@ void						handle_Cmd(struct android_app *, int32_t);
 int32_t 					handle_Input(struct android_app *, AInputEvent *);
 void						Render(struct engine* ); 
 void						checkGlError(const char* );
+
+long						_getTime(void);
 
 
 #endif
