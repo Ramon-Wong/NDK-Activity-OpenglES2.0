@@ -2,7 +2,7 @@
 
 
 
-long	startTime = 0.0;
+
 
 
 
@@ -24,8 +24,8 @@ void handle_Cmd(struct android_app* app, int32_t cmd) {
 		SetupGraphics(engine);
 		LOGI(" Finished with EGL/OGL es 2.0 setup :D");
 		
-		startTime = _getTime() * 0.001;
-		LOGI(" GetTime: %d", startTime);
+		GLfloat startTime = _getTime() * E06;
+		LOGI(" GetTime: %f", startTime);
 		
 		// Init Camera
 		Render(engine);		
@@ -73,10 +73,8 @@ int32_t handle_Input(struct android_app* app, AInputEvent* event) {
 		engine->Input.touchX = AMotionEvent_getX(event, 0);
 		engine->Input.touchY = AMotionEvent_getY(event, 0);
 		
-		
-		long currentTime = _getTime() * 0.001;
-		LOGI("x %d\ty %d   Time: %i \n", engine->Input.touchX, engine->Input.touchY,  currentTime - startTime);
-		startTime = currentTime;
+		LOGI("x %d\ty %d \n", engine->Input.touchX, engine->Input.touchY);
+
 		return 1;
 	}
 	return 0;

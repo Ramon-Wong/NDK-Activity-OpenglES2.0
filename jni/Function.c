@@ -81,13 +81,9 @@ GLubyte Cube_Indices[] = {  0, 1, 2,		0, 2, 3,		// Front
 						 
 						 
 static GLfloat	pRot_Z	= 0.0f;	
+static GLfloat	gInterval = 0.0f;
 
-						 
-					 
-						 
-						 
-						 
-						 
+
 void setMatrixUniforms(struct engine * engine) {
 	glUniformMatrix4fv(engine->GLData.u_Matrix, 1, false, engine->Matrices.mvpMat);			checkGlError("glUniformMatrix4fv Model Stacks");	
 	glUniformMatrix4fv(engine->GLData.p_Matrix,  1, false, engine->Matrices.pMatrix);		checkGlError("glUniformMatrix4fv Perspective");
@@ -112,7 +108,7 @@ void Render(struct engine * engine) {
 											
 	GLfloat	mMatrix[16];
 	
-	pRot_Z += 5.1;
+	pRot_Z += 145.0 * gInterval;
 	
 //	glViewport(0, 0, engine->Scr.width, engine->Scr.height);
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);												//checkGlError("glClear");
@@ -164,14 +160,19 @@ void Render(struct engine * engine) {
 	eglSwapBuffers(engine->EGL.display, engine->EGL.surface);
 	
 	
-	unsigned long			currentTime = _getTime() * 0.001;
-	static unsigned long	lastTime = 0.0;
+	long					currentTime = _getTime();
+	static long				lastTime = 0.0f;
+	static long				frameTime = 0.0f;
 	static GLuint 			FPS = 0;
+	GLfloat					xTime = (currentTime - lastTime) * E06;
+	
+	gInterval	= (currentTime - frameTime) * E06;
+	frameTime	= currentTime;
 	
 	FPS++;
 	
-	if( currentTime - lastTime > 1000.0){
-		LOGI(" Tick: %i", FPS);
+	if( xTime > 1.0){
+		LOGI(" Tick: %i   FrameTime: %f", FPS, gInterval);
 		lastTime = currentTime;
 		FPS = 0;
 	}

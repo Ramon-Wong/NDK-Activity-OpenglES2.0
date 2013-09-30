@@ -23,9 +23,9 @@
 #define LOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN,  "native-activity", __VA_ARGS__))
 #define LOGE(...) ((void)__android_log_print(ANDROID_LOG_ERROR, "native-activity", __VA_ARGS__))
 
-#define false 0
-#define FALSE 0
-
+#define false	0
+#define FALSE	0
+#define E06		0.000001f
 
 
 struct engine {
@@ -68,7 +68,6 @@ struct engine {
 	
 };
 
-extern long				startTime;
 
 
 GLuint						displayInit(struct engine *);

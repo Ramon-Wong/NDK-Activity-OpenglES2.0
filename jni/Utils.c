@@ -27,6 +27,8 @@ void printGLString(const char *name, GLenum s) {
 
 long _getTime(void){
     struct timespec now;
+    //~ CLOCK_REALTIME
+    //~ CLOCK_MONOTONIC
     clock_gettime(CLOCK_MONOTONIC, &now);
     
     return now.tv_sec*1000000 + now.tv_nsec/1000;
